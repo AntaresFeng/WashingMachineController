@@ -7,7 +7,6 @@ WashProgramType proTypeSet; // 洗衣程序选择
 u8 proSeqIndex; //当前洗衣环节序号
 u16 remainingTime; // 当前环节剩余时间
 u16 totalRemainingTime; // 总剩余时间
-u8 toBeUpdated = 0; // 屏幕需要更新
 
 u16 scheduledTimeList[] = { 30, 60, 90, 120, 180 }; // 预约时间选择列表
 char scheduledTimeIndex = (char)-1; // 列表序号 -1:无预约 0-4:有预约
@@ -205,12 +204,10 @@ WashingMachineState doIDLE(void) {
 	case SETPRO: // 设定洗衣程序
 		proTypeSet = proTypeSet == ONLYSPIN ? STANDARD : proTypeSet + 1;
 		nextStatus = IDLE;
-		toBeUpdated = 1;
 		break;
 	case SETWATER: // 设定水位
 		setWaterLevel();
 		nextStatus = IDLE;
-		toBeUpdated = 1;
 		break;
 	default:
 		break;
@@ -255,7 +252,6 @@ WashingMachineState doWORKING(void) {
 	case SETWATER: // 无效按键
 		totalRemainingTime--;
 		remainingTime--; // 时间递减
-		toBeUpdated = 1;
 		if (remainingTime == 0) { // 当前流程结束
 			proSeqIndex++; // 切换下一个流程
 			remainingTime = proStructPointer->proTime[proSeqIndex];
@@ -294,7 +290,6 @@ WashingMachineState doSCHEDULED(void) {
 		}
 		else {
 			scheduledTime--; // 时间递减
-			toBeUpdated = 1;
 			nextStatus = SCHEDULED; // 依然是预约状态
 		}
 		break;
@@ -312,19 +307,16 @@ WashingMachineState doSCHEDULED(void) {
 		else { // 下一个预约时间
 			scheduledTimeIndex++;
 			scheduledTime = scheduledTimeList[scheduledTimeIndex];
-			toBeUpdated = 1;
 			nextStatus = SCHEDULED;
 		}
 		break;
 	case SETPRO: // 选择洗衣程序
 		proTypeSet = proTypeSet == ONLYSPIN ? STANDARD : proTypeSet + 1;
 		nextStatus = SCHEDULED;
-		toBeUpdated = 1;
 		break;
 	case SETWATER: // 选择水位
 		setWaterLevel();
 		nextStatus = SCHEDULED;
-		toBeUpdated = 1;
 		break;
 	default:
 		break;
@@ -341,7 +333,6 @@ void runWashingMachine(void) {
 	proTypeSet = STANDARD;
 
 	initDisplay();
-	toBeUpdated = 1;
 	while (1) {
 		switch (currentState) { // 根据当前状态选择对应的函数
 		case IDLE:
@@ -370,14 +361,10 @@ void runWashingMachine(void) {
 		if (currentState != tempState) {
 			lastState = currentState;
 			currentState = tempState;
-			toBeUpdated = 1;
 		}
 
 		// 更新LCD显示
-		if (toBeUpdated) {
-			updateDisplay(currentState, totalRemainingTime);
-			toBeUpdated = 0;
-		}
+		updateDisplay(currentState, totalRemainingTime);
 
 		//P4OUT ^= BIT5;
 		//while(P4IN & BIT2);
