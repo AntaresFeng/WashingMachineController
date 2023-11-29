@@ -55,18 +55,17 @@ typedef struct WashProgramStruct {
 	u16 proTime[MAX_SEQUENCE_LENGTH]; //流程时间
 } WashProgramStruct;
 
-void u16ToString(u16 num, char *str);
-u16 sumArray(u16* arr, u16 size);
-void initDisplay(void);
-void updateDisplay(WashingMachineState state, u16 remainingTime);
-void washStart(WashProgramStruct* proStructPointer);
-void setWaterLevel(void);
-void alarm(void);
-Button readButtonInput(void);
+void u16ToString(u16 num, char *str);// 数字转字符串函数
+u16 sumArray(u16* arr, u16 size);// 数组求和函数
+void initDisplay(void);// LCD初始显示函数，显示菜单等一次性内容
+void updateDisplay(WashingMachineState state, u16 remainingTime);// LCD显示函数，用于显示当前状态和剩余时间
+void washStart(WashProgramStruct* proStructPointer);// 开始洗衣程序
+void alarm(void);// 报警提示
+Button readButtonInput(void);// 获取按键输入，并检查合法性
 WashingMachineState doIDLE(void);
 WashingMachineState doPAUSED(WashingMachineState lastState);
 WashingMachineState doWORKING(void);
 WashingMachineState doFINISHED(void);
-void runWashingMachine(void);
+void runWashingMachine(void); // 主循环函数
 
 #endif

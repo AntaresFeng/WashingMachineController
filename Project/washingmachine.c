@@ -14,7 +14,7 @@ u16 scheduledTime = 0; // 预约的时间
 
 WaterLevel waterLevel = LOW; // 水位
 
-WashProgramStruct WashingProgramSettings[7] = { 
+WashProgramStruct WashingProgramSettings[6] = {
 	{
 		STANDARD, //标准洗
 		{ FILLING, WASHING, RINSING, SPINNING, FILLING, RINSING, SPINNING, FINISHED},
@@ -66,7 +66,7 @@ void u16ToString(u16 num, char* str) {
 		num /= 10;
 	} while (num != 0 && i > 0);
 
-	// 如果数字不足 MAX_DIGITS 位数，向前补空格
+	// 如果数字不足 3 位数，向前补空格
 	while (i > 0) {
 		i--;
 		str[i] = ' ';
@@ -148,10 +148,6 @@ void washStart(WashProgramStruct* proStructPointer) {
 	remainingTime = proStructPointer->proTime[proSeqIndex];
 }
 
-void setWaterLevel(void) {
-	waterLevel = (waterLevel == HIGH ? LOW : waterLevel + 1); // 低中高循环
-}
-
 void alarm(void) {
 	u8 i;
 	BUZZER_PORT |= BUZZER_BIT;
@@ -206,7 +202,7 @@ WashingMachineState doIDLE(void) {
 		nextStatus = IDLE;
 		break;
 	case SETWATER: // 设定水位
-		setWaterLevel();
+		waterLevel = (waterLevel == HIGH ? LOW : waterLevel + 1); // 低中高循环
 		nextStatus = IDLE;
 		break;
 	default:
@@ -315,7 +311,7 @@ WashingMachineState doSCHEDULED(void) {
 		nextStatus = SCHEDULED;
 		break;
 	case SETWATER: // 选择水位
-		setWaterLevel();
+		waterLevel = (waterLevel == HIGH ? LOW : waterLevel + 1); // 低中高循环
 		nextStatus = SCHEDULED;
 		break;
 	default:
@@ -368,7 +364,5 @@ void runWashingMachine(void) {
 
 		//P4OUT ^= BIT5;
 		//while(P4IN & BIT2);
-		_delay_ms(10);
-		// 软延时
-	}
+		}
 }

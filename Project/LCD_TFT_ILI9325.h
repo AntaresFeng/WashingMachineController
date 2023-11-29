@@ -144,7 +144,7 @@ extern void LCD_TFT_FillRectangle(u16 xSta,u16 ySta,u16 xEnd,u16 yEnd,u16 color)
 	//显示一个字符( 指定坐标,字体大小,颜色)-"彩屏LCD_TFT_ILI9325"  
 extern void LCD_TFT_ShowChar(u16 x,u16 y,u8 AscNum,u8 Font,u16 pointColor,u16 backColor); 
 	//显示字符串( 指定坐标,字体大小,颜色)-"彩屏LCD_TFT_ILI9325"  
-extern void LCD_TFT_ShowString(u16 line,u16 column,u8 *ArrayPoint,u8 Font,u16 pointColor,u16 backColor); 
+extern void LCD_TFT_ShowString(u16 line,u16 column,char *ArrayPoint,u8 Font,u16 pointColor,u16 backColor);
 
 	//显示1个24*24的汉字-"彩屏LCD_TFT_ILI9325"  
 extern void LCD_TFT_Show_ChFont2424(u16 x,u16 y,u8 index,u16 pointColor,u16 backColor); 

@@ -970,7 +970,7 @@ void LCD_TFT_ShowChar(u16 x,u16 y,u8 AscNum,u8 Font,u16 pointColor,u16 backColor
 *输出参数-output:	None
 *注意事项-Note：	
 ****************************************************************************/
-void LCD_TFT_ShowString(u16 line,u16 column,u8 *ArrayPoint,u8 Font,u16 pointColor,u16 backColor) //显示字符串( 指定坐标,字体大小,颜色)-"彩屏LCD_TFT_ILI9325"  
+void LCD_TFT_ShowString(u16 line,u16 column,char *ArrayPoint,u8 Font,u16 pointColor,u16 backColor) //显示字符串( 指定坐标,字体大小,颜色)-"彩屏LCD_TFT_ILI9325"
 {
 	u16 x = 0;
 	u16 y = 0;
