@@ -364,5 +364,6 @@ void runWashingMachine(void) {
 
 		//P4OUT ^= BIT5;
 		//while(P4IN & BIT2);
+		//__no_operation(); // for debug
 		}
 }

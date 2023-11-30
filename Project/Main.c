@@ -37,10 +37,10 @@ int main(void)
 
 	runWashingMachine(); // 洗衣机控制主程序
 
-	while(1)
-	{	
-
-	}
+//	while(1)
+//	{
+//
+//	}
 }
 
 

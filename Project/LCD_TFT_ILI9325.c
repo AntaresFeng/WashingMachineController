@@ -1177,18 +1177,17 @@ void LCD_TFT_ShowChString(u16 line, u16 column, char *ArrayPoint, u16 pointColor
 	max_y = 296;
 
 	while (*ArrayPoint != '\0') {
-		if (x > max_x) {
-			x = y = 0;
-			LCD_TFT_Clear(backColor);
-		}
-		if (y > max_y ) {
-			y = 0;
-			x += VerticalNum;
-		}
-		if (*ArrayPoint == '\n'){
+		if (*ArrayPoint == '\n') {
 			y = 0;
 			x += VerticalNum;
 			ArrayPoint++;
+		} else if (y > max_y) {
+			y = 0;
+			x += VerticalNum;
+		}
+		if (x > max_x) {
+			x = y = 0;
+			LCD_TFT_Clear(backColor);
 		}
 
 		ChNum = findChineseIndex(ArrayPoint);
@@ -1197,7 +1196,6 @@ void LCD_TFT_ShowChString(u16 line, u16 column, char *ArrayPoint, u16 pointColor
 		y += horizontalNum; //坐标地址累加，指向下一个汉字的显示位置
 		ArrayPoint += 2; //数组指针累加，指向下一个汉字
 	}
-
 }
 
 
